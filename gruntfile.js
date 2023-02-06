@@ -7,8 +7,26 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-exorcise');
+  grunt.loadNpmTasks('grunt-size-report');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.initConfig({
+    watch: {
+      scripts: {
+        files: ['./lib/**/*.js'],
+        tasks: ['build'],
+        options: {
+          spawn: false,
+        },
+      },
+    },
+    size_report: {
+      default: {
+        files: {
+          list: ['./lib/**/*.js'],
+        },
+      },
+    },
     babel: {
       options: {
         sourceMap: true,
@@ -138,4 +156,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['babel:dist', 'browserify', 'terser', 'exorcise', 'copy']);
   grunt.registerTask('ug', ['terser']);
+  grunt.registerTask('sizereport', ['size_report']);
 };
